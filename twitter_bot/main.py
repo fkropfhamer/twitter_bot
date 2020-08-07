@@ -1,6 +1,7 @@
 import tweepy
 import json
 import os
+from emojis import get_random_emoji
 
 def get_secrets():
     dirname = os.path.dirname(__file__)
@@ -16,7 +17,7 @@ def main():
 
     api = tweepy.API(auth)
 
-    api.update_status("<§")
+    api.update_status(get_random_emoji())
 
 if __name__ == "__main__":
     main()
