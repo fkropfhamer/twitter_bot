@@ -1,0 +1,7 @@
+version: '3'
+
+services: 
+    twitter_bot:
+        build:
+            context: .
+            dockerfile: Dockerfile-arm

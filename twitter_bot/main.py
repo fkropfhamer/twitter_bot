@@ -4,6 +4,7 @@ import os
 from emojis import get_random_emoji
 import numpy as np
 from PIL import Image
+from gan import generate_mnist
 
 def get_secrets():
     dirname = os.path.dirname(__file__)
@@ -25,16 +26,19 @@ def authenticate():
 
 def post_random_emoji(api):
     api.update_status(get_random_emoji())
+    
 
-
-def save_numpy_array_to_png(array):
+def save_numpy_array_to_png(array, mode='RGB', size=None):
     """
     expects numpy array of shape (height, width, 3) and dtype = np.uint8
     size should be minimum 128x128
     recommended 440x220 or 16:9
     """     
 
-    im = Image.fromarray(array, mode='RGB')
+    im = Image.fromarray(array, mode=mode)
+
+    if size:
+        im = im.resize(size)
 
     im.save('numpy_img.png', format="PNG")
 
@@ -47,8 +51,8 @@ def upload_numpy_image(api):
     return api.media_upload('numpy_img.png')
 
 
-def post_image_from_nump_array(api, array, message):
-    save_numpy_array_to_png(array)
+def post_image_from_nump_array(api, array, message, mode='RGB', size=None):
+    save_numpy_array_to_png(array, mode=mode, size=size)
 
     media = upload_numpy_image(api)
 
@@ -64,8 +68,10 @@ def post_randomly_generated_image(api):
 def main():
     api = authenticate()
     # post_random_emoji(api)
-    
-    post_randomly_generated_image(api)
+    # post_randomly_generated_image(api)
+
+    generated_array = generate_mnist()
+    post_image_from_nump_array(api, generated_array, 'm', mode='L', size=(128,128))
     
 
 
