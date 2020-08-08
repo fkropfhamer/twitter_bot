@@ -2,12 +2,15 @@ import tweepy
 import json
 import os
 from emojis import get_random_emoji
+import numpy as np
+from PIL import Image
 
 def get_secrets():
     dirname = os.path.dirname(__file__)
     filename = os.path.join(dirname, '../config.json')
     with open(filename) as file:
         return json.load(file)
+
 
 def authenticate():
     secrets = get_secrets()
@@ -19,17 +22,50 @@ def authenticate():
 
     return api
 
+
 def post_random_emoji(api):
     api.update_status(get_random_emoji())
 
-def post_image(api):
-    api.update_with_media('code.png', status='?')
+
+def save_numpy_array_to_png(array):
+    """
+    expects numpy array of shape (height, width, 3) and dtype = np.uint8
+    size should be minimum 128x128
+    recommended 440x220 or 16:9
+    """     
+
+    im = Image.fromarray(array, mode='RGB')
+
+    im.save('numpy_img.png', format="PNG")
+
+
+def post_image(api, file, message):
+    api.media_upload('temp.png')
+
+
+def upload_numpy_image(api):
+    return api.media_upload('numpy_img.png')
+
+
+def post_image_from_nump_array(api, array, message):
+    save_numpy_array_to_png(array)
+
+    media = upload_numpy_image(api)
+
+    api.update_status(message, media_ids=[media.media_id])
+
+
+def post_randomly_generated_image(api):
+    array = np.random.randint(255, size=(900, 1600, 3), dtype=np.uint8)
+
+    post_image_from_nump_array(api, array, get_random_emoji())
+
 
 def main():
     api = authenticate()
     # post_random_emoji(api)
-
     
+    post_randomly_generated_image(api)
     
 
 
