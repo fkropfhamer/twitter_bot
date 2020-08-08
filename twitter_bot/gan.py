@@ -1,9 +1,12 @@
 import tensorflow as tf
 from tensorflow import keras
 import numpy as np
+import os
 
 def generate_mnist():
-    generator = load_generator('./models/mnist_model.h5')
+    dirname = os.path.dirname(__file__)
+    filename = os.path.join(dirname, '../models/mnist_model.h5')
+    generator = load_generator(filename)
 
     generated_image = generate(generator)
     generated_image = normalize(generated_image)

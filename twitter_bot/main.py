@@ -27,7 +27,6 @@ def authenticate():
 def post_random_emoji(api):
     api.update_status(get_random_emoji())
 
-
 def save_numpy_array_to_png(array, mode='RGB', size=None):
     """
     expects numpy array of shape (height, width, 3) and dtype = np.uint8
