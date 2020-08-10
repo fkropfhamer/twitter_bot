@@ -1,14 +1,12 @@
-FROM python:3.7
+FROM fkropfhamer/python-tensorflow-lite-numpy-raspberrypi
 
 WORKDIR /app
 
 COPY ./twitter_bot /app/twitter_bot
 COPY ./config.json /app
-COPY ./requirements.txt /app
 COPY ./models /app/models
 
-RUN pip install -r /app/requirements.txt
-RUN pip install https://dl.google.com/coral/python/tflite_runtime-2.1.0.post1-cp37-cp37m-linux_armv7l.whl
+RUN pip install tweepy pillow
 
 ENTRYPOINT ["python", "/app/twitter_bot/main.py"]
 
