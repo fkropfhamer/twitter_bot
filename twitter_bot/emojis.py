@@ -1933,7 +1933,7 @@ EMOJIS = [
 ]
 
 def get_random_emoji():
-    return random.choice(EMOJIS)
+    return random.choice(EMOJIS) + " #moinmoin"
 
 if __name__ == "__main__":
     print(get_random_emoji())
