@@ -3,7 +3,7 @@ from api import authenticate, post_random_emoji, post_randomly_generated_image, 
 
 
 def post_random(api):
-    choices = [post_random_emoji, post_randomly_generated_image, post_mnist_generated_image]
+    choices = [post_random_emoji, post_mnist_generated_image]
 
     choice = random.choice(choices)
 
