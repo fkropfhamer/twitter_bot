@@ -66,5 +66,8 @@ def post_randomly_generated_image(api):
     post_image_from_nump_array(api, array, get_random_emoji())
 
 def post_mnist_generated_image(api):
-    generated_array = generate_mnist()
+    generated_array = np.uint8(generate_mnist())
     post_image_from_nump_array(api, generated_array, get_random_emoji(), mode='L', size=(128,128))
+
+if __name__ == "__main__":
+    post_mnist_generated_image(authenticate())
