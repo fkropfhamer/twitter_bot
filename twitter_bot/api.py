@@ -36,7 +36,7 @@ def save_numpy_array_to_png(array, mode='RGB', size=None):
     recommended 440x220 or 16:9
     """     
 
-    im = Image.fromarray(np.uint8(array), mode=mode)
+    im = Image.fromarray(array, mode=mode)
 
     if size:
         im = im.resize(size)
@@ -66,7 +66,7 @@ def post_randomly_generated_image(api):
     post_image_from_nump_array(api, array, get_random_emoji())
 
 def post_mnist_generated_image(api):
-    generated_array = generate_mnist()
+    generated_array = np.uint8(generate_mnist())
     post_image_from_nump_array(api, generated_array, get_random_emoji(), mode='L', size=(128,128))
 
 if __name__ == "__main__":
